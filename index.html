@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+
+<html lang="zxx" class="js">
+
+    <head>
+
+        <base href="">
+
+        <meta charset="utf-8">
+
+        <meta name="author" content="Author Name">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <meta name="description" content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
+        
+        <!-- Fav Icon  -->
+        <link rel="shortcut icon" href="./images/favicon.png">
+        
+        <!-- Page Title  -->
+        <title>Altres Printing Services | ID Generator</title>
+
+        <link rel="stylesheet" href="./plugins/croppie/croppie.css">
+
+        <link rel="stylesheet" href="./plugins/uikit-3.17.11/css/uikit.min.css">
+
+
+
+        <style>
+
+            .collage-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: start;
+                flex-direction: row;
+                max-width: 387px; /* Set your desired maximum width */
+                max-height: 493px;
+                margin: 0 auto; /* Center the container */
+            }
+
+            .collage-item {
+                flex: 0 0 auto; /* Prevent items from growing and shrinking */
+                /* margin: 5px; */
+            }
+
+            .collage-item img {
+                max-width: 100%;
+                max-height: 100%;
+                height: auto; /* Maintain aspect ratio */
+                display: block; /* Remove extra spacing under images */
+            }
+
+            /* ==================== Image Uploader ===================== */
+                #image_uploader{
+
+                    height:100vh;
+                    display:flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                }
+            /* ==================== Image Uploader END ================= */
+
+            /* ==================== Packages =========================== */
+                #package_list{
+
+                    height:100vh;
+                    display:flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                }
+
+                #package_list > button{
+
+                    margin-top: 5px;
+                    margin-bottom: 5px;
+                }
+            /* ==================== Packages END ======================= */
+
+            /* ==================== Preview Pane ======================== */
+                #preview_pane_div{
+
+                    height:100vh;
+                    display:flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                }
+            /* ==================== Preview Pane END ==================== */
+
+        </style>
+        
+    </head>
+
+    <body>
+
+        <input type="hidden" id="selected_img">
+
+        <!-- ====================== Packages ====================== -->
+            <div id="package_list" style="display:none;">
+                <div style="text-align:center;">
+                    <h4><b class="uk-text-uppercase">Select Package:</b></h4><br>
+                </div>
+                <button class="uk-button-secondary uk-button-large" type="button" onclick="selectPackage(1)">Package 1</button>
+                <button class="uk-button-secondary uk-button-large" type="button" onclick="selectPackage(2)">Package 2</button>
+                <button class="uk-button-secondary uk-button-large" type="button" onclick="selectPackage(3)">Package 3</button>
+                <button class="uk-button-secondary uk-button-large" type="button" onclick="selectPackage(4)">Package 4</button>
+                <button class="uk-button-secondary uk-button-large" type="button" onclick="selectPackage(5)">Package 5</button>
+                <button class="uk-button-secondary uk-button-large" type="button" onclick="selectPackage(6)">Package 6</button>
+                <hr><br>
+                <div>
+                    <button 
+                        type="button" 
+                        class="uk-button-default uk-button-large" 
+                        onclick="step1()">
+                        <span uk-icon="icon: chevron-left"></span>
+                        Prev
+                    </button>
+                </div>
+            </div>
+        <!-- ====================== Packages END ================== -->
+
+
+        <!-- ======================= Image Selector ========================= -->
+            <div id="image_uploader">
+                <div style="text-align:center;">
+                    <h4><b class="uk-text-uppercase">Select an Image:</b></h4><br>
+                    <input type="file" id="upload"> 
+                </div><hr><br>
+                <button 
+                    type="button" 
+                    class="uk-button-primary uk-button-large" 
+                    onclick="step2()">
+                    Next
+                    <span uk-icon="icon: chevron-right"></span>
+                </button>
+            </div>
+        <!-- ======================= Image Selector END ===================== -->
+
+
+        <!-- ======================= Image Slots ======================== -->
+            <div id="img_slots" style="display: none;">
+                <!-- <img class="my-image" src="demo/demo-1.jpg" id="item_img" />   -->
+            </div>
+
+            <div style="text-align: center;">
+                <button 
+                    type="button" 
+                    class="uk-button-primary uk-button-large" 
+                    id="next_result" 
+                    onclick="nextBtn()" 
+                    style="display:none;">
+                    Next
+                </button>
+            </div>
+        <!-- ======================= Image Slots END ==================== -->
+
+
+        <!-- ======================= Result Pane ============================-->
+            <div id="preview_pane_div" style="display:none;">
+                <div style="text-align:center;">
+                    <h4><b class="uk-text-uppercase">Result:</b></h4><br>
+                </div>
+                <div class="collage-container" id="image_results" style="min-height: 493px; max-height: 493px; min-width: 387px; max-width: 387px;">
+                </div>
+                <hr><br>
+                <div>
+                    <button 
+                        type="button" 
+                        class="uk-button-danger uk-button-large" 
+                        onclick="location.reload()">
+                        <span uk-icon="icon: history"></span>
+                        Startover
+                    </button>
+                    <button 
+                        type="button" 
+                        class="uk-button-default uk-button-large" 
+                        onclick="DownloadAsImage()">
+                        <span uk-icon="icon: download"></span>
+                        Download
+                    </button>
+                </div>
+            </div>
+        <!-- ======================= Result Pane END ========================-->
+
+        
+        <script src="./plugins/jquery.min.js"></script>
+
+        <script src="./plugins/uikit-3.17.11/js/uikit.min.js"></script>
+        <script src="./plugins/uikit-3.17.11/js/uikit-icons.min.js"></script>
+
+        <script src="./plugins/croppie/croppie.js"></script>
+        <script src="./plugins/croppie/croppie.min.js"></script>
+
+        <!-- <script src="./plugins/masonry.pkgd.min.js"></script>
+        <script src="./plugins/masonry.js"></script> -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/masonry-layout/masonry.min.js"></script> -->
+
+        <!-- <script src="https://unpkg.com/packery@2/dist/packery.pkgd.min.js"></script> -->
+        <script src="./plugins//packery.pkgd.min.js"></script>
+        <script src="./plugins/html2canvas.min.js"></script>
+
+        <script>
+
+            function packery(){
+
+                $('.collage-container').packery({
+                    // options
+                    itemSelector: '.collage-item',
+                });
+            }
+
+            function selectPackage(pkg_no){
+
+                $('#package_list').hide()
+                $('#img_slots').show()
+                $('#next_result').show()
+
+                $('#img_slots').html('')
+
+                var package_val = pkg_no
+
+                if(package_val == 1){
+
+                    twoByTwo(1)
+                    passportSize(1)
+                    oneByOne(9)
+                    
+                    // 2x2          = 1
+                    // Passport     = 1
+                    // 1x1          = 9
+                }
+
+                else if(package_val == 2){
+
+                    twoByTwo(1)
+                    passportSize(1)
+                    oneByOne(3)
+                    oneByFive(2)
+
+                    // 2x2          = 1
+                    // Passport     = 1
+                    // 1x1          = 3
+                    // 1x5          = 2
+                }
+
+                else if(package_val == 3){
+                    
+                    twoByTwo(2)
+                    passportSize(2)
+                    oneByOne(3)
+
+                    // 2x2          = 2
+                    // Passport     = 2
+                    // 1x1          = 3
+                }
+
+                else if(package_val == 4){
+
+                    oneByOne(9)
+                    oneByFive(2)
+
+                    // 1x1          = 9
+                    // 1x5          = 2
+                }
+
+                else if(package_val == 5){
+
+                    oneByOne(15)
+
+                    // 1x1          = 15
+                }
+
+                else if(package_val == 6){
+
+                    twoByTwo(2)
+                    oneByOne(7)
+
+                    // 1x1          = 7
+                    // 2x2          = 2
+                }
+            }
+
+
+
+            // ================ Image Sizes Functions ==================== 
+                function oneByOne(image_count){
+
+                    var output=''
+
+                    var selected_img = $('#selected_img').val()
+
+                    output+='<h4 style="text-align:center;"><b class="uk-text-uppercase">1x1</b></h4>'
+                    output+='<img class="my-image" src="'+ selected_img +'" id="img_1x1" iteration="'+ image_count +'" />'
+
+                    $(output).appendTo('#img_slots')
+
+                    initializeCroppie('img_1x1', 94, 94)
+
+                }
+
+
+                function oneByFive(image_count){
+
+                    var output=''
+
+                    var selected_img = $('#selected_img').val()
+
+                    output+='<h4 style="text-align:center;"><b class="uk-text-uppercase">1x5</b></h4>'
+                    output+='<img class="my-image" src="'+ selected_img +'" id="img_1x5" iteration="'+ image_count +'" />'
+
+                    $(output).appendTo('#img_slots')
+
+                    initializeCroppie('img_1x5', 136, 144)
+
+                }
+
+
+                function twoByTwo(image_count){
+
+                    var output=''
+
+                    var selected_img = $('#selected_img').val()
+
+                    output+='<h4 style="text-align:center;"><b class="uk-text-uppercase">2x2</b></h4>'
+                    output+='<img class="my-image" src="'+ selected_img +'" id="img_2x2" iteration="'+ image_count +'" />'
+
+                    $(output).appendTo('#img_slots')
+
+                    initializeCroppie('img_2x2', 193, 193)
+
+                }
+
+
+                function passportSize(image_count){
+
+                    var output=''   
+
+                    var selected_img = $('#selected_img').val()
+
+                    output+='<h4 style="text-align:center;"><b class="uk-text-uppercase">Passport Size</b></h4>'
+                    output+='<img class="my-image" src="'+ selected_img +'" id="img_passport" iteration="'+ image_count +'" />'
+
+                    $(output).appendTo('#img_slots')
+
+                    initializeCroppie('img_passport', 132, 173)
+
+                }
+            // ================ Image Sizes Functions END ================
+
+
+
+            function initializeCroppie(id, width, height){
+
+                $uploadCrop = $('#'+id).croppie({
+                    viewport: {
+                        width: width,
+                        height: height,
+                        type: 'square'
+                    },
+                    enforceBoundary: false,
+                    boundary: {
+                        width: 300,
+                        height: 300
+                    }
+                })
+
+                return $uploadCrop
+
+            }
+
+            //Button (Displays the image)
+            $('#upload').on('change', function () { 
+
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+
+                    // $uploadCrop.croppie('bind', {
+
+                        // alert(e.target.result)
+
+                        $('#selected_img').val(e.target.result)
+
+                    // }).then(function(){
+                            
+                        // alert(e.target.result)
+                    // })
+
+                }
+
+                reader.readAsDataURL(this.files[0])
+            })
+
+
+            function nextBtn(){
+
+                $('#image_results').html('')
+
+                var output=''
+
+                var croppie_divs = document.querySelectorAll('.my-image')
+
+                $.each(croppie_divs, function(key, value){
+
+                    var croppie_Id = $(this).attr('id')
+                    var iteration  = $(this).attr('iteration')
+
+                    $('#'+croppie_Id).croppie('result', {
+                        type: 'canvas',
+                        size: 'viewport'
+                    }).then(function (resp) {
+
+                        for(var i = 0; i < iteration; i++){
+
+                            output+='<div class="collage-item"><img class="photo-collage" id="preview_'+ croppie_Id +'" src="'+ resp +'" style="border: 1px solid gray;"></div>'
+                            
+                        }
+                        
+                        console.log('#preview_'+ croppie_Id + ' | '+ resp)
+
+                    })
+                    
+                })
+
+                $('#img_slots').hide()
+                $('#next_result').hide()
+                $('#preview_pane_div').show()
+
+                setTimeout(function(){
+                    
+                    $(output).appendTo('#image_results')
+
+                }, 200)
+
+                setTimeout(function(){
+
+                    packery()
+
+                }, 2000)
+                
+            }
+
+
+            // ============================= Steps ================================
+                function step1(){
+                    
+                    $('#package_list').hide()
+                    $('#image_uploader').show()
+                }
+
+                function step2(){
+
+                    if($('#upload')[0].files.length == 0){
+
+                        UIkit.notification({message: 'Please select an image', status: 'danger', pos: 'bottom-center'})
+                    }
+
+                    else{
+
+                        $('#image_uploader').hide()
+                        $('#package_list').show()
+                    }
+                    
+                }
+            // ============================= Steps END ============================
+
+            // ============================= Image Downloader ==========================
+                function downloadURI(uri, name) {
+
+                    var link = document.createElement("a");
+
+                    link.download = name;
+                    link.href = uri;
+                    document.body.appendChild(link);
+                    link.click();
+                    clearDynamicLink(link); 
+                }
+
+                function DownloadAsImage() {
+
+                    var current_date = new Date($.now());
+
+                    var element = $("#image_results")[0];
+                    
+                    html2canvas(element).then(function (canvas) {
+                        var myImage = canvas.toDataURL();
+                        downloadURI(myImage, current_date+".png");
+                    });
+                }
+            // ============================= Image Downloader END ======================
+
+        </script>
+
+    </body>
+
+</html>
